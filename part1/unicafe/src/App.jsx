@@ -21,7 +21,7 @@ const Statistics = ({good,bad,neutral})=> {
             <StatisticLine text ="bad " value = {bad}/>
             <StatisticLine text ="all " value = {total}/>
             <StatisticLine text ="average " value = {(good - bad) / (total)}/>
-            <StatisticLine text ="positive " value = {(good)/(total)} suffix ="%" />
+            <StatisticLine text ="positive " value = {(good)/(total) * 100} suffix ="%" />
           </tbody>
         </table>
       </>
