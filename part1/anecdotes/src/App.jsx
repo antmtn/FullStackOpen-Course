@@ -4,6 +4,9 @@ const Button = (props) => {
     <button onClick = {props.onClick}>{props.text}</button>
   )
 }
+
+const Header = (props) =><h1>{props.text}</h1>
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -31,13 +34,29 @@ const App = () => {
     setVotes(copy)
   }
 
+  let maxVoteAnecdote = 0
+  let maxVote = votes[0]
+  for (let i = 0; i<anecdotes.length; i++){
+    if (votes[i] > maxVote){
+      maxVoteAnecdote = i
+      maxVote = votes[i]
+    }
+  }
+
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>has {votes[selected]} votes</p>
+      <Header text = "Anecdote of the day"/>
+      {anecdotes[selected]}
+      <br/>
+      has {votes[selected]} votes
+      <br/>
       <Button text = "vote" onClick = {incrementVote}/>
       <Button text = "next anecdote" onClick = {randomAnecdote}/>
       
+      <Header text = "Anecdote with most votes"/>
+      {anecdotes[maxVoteAnecdote]}
+      <br/>
+      has {maxVote} votes
     </div>
   )
 }
