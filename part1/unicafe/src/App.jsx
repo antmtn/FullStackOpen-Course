@@ -11,17 +11,21 @@ const Header = (props) => {
 
 const Statistics = ({good,bad,neutral})=> {
   let total = good + bad + neutral
-  return(
-    <>
-      <Header text = "statistics"/>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {(good - bad) / (total)}</p>
-      <p>positive {(good)/(total)}%</p>
-    </>
-  )
+  if (total > 0){
+    return(
+      <>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {total}</p>
+        <p>average {(good - bad) / (total)}</p>
+        <p>positive {(good)/(total)}%</p>
+      </>
+    )
+  }
+  else{
+    return "No feedback given"
+  }
 }
 
 const App = () => {
@@ -53,6 +57,7 @@ const App = () => {
         value: bad + 1})} 
       text = "bad"/>
 
+      <Header text = "statistics"/>
       <Statistics good = {good} bad = {bad} neutral = {neutral}/>
     </div>
   )
