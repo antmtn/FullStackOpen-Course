@@ -9,6 +9,21 @@ const Header = (props) => {
   )
 }
 
+const Statistics = ({good,bad,neutral})=> {
+  let total = good + bad + neutral
+  return(
+    <>
+      <Header text = "statistics"/>
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+      <p>all {total}</p>
+      <p>average {(good - bad) / (total)}</p>
+      <p>positive {(good)/(total)}%</p>
+    </>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -18,8 +33,6 @@ const App = () => {
   const increment = (props) =>{
     props.setState(props.value)
   }
-
-  let total = good + bad + neutral
 
   return (
     <div>
@@ -40,14 +53,7 @@ const App = () => {
         value: bad + 1})} 
       text = "bad"/>
 
-      <Header text = "statistics"/>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {(good - bad) / (total)}</p>
-      <p>positive {(good)/(total)}%</p>
-
+      <Statistics good = {good} bad = {bad} neutral = {neutral}/>
     </div>
   )
 }
