@@ -14,18 +14,32 @@ const Statistics = ({good,bad,neutral})=> {
   if (total > 0){
     return(
       <>
-        <p>good {good}</p>
-        <p>neutral {neutral}</p>
-        <p>bad {bad}</p>
-        <p>all {total}</p>
-        <p>average {(good - bad) / (total)}</p>
-        <p>positive {(good)/(total)}%</p>
+        <table> 
+          <tbody>
+            <StatisticLine text ="good " value = {good}/>
+            <StatisticLine text ="neutral " value = {neutral}/>
+            <StatisticLine text ="bad " value = {bad}/>
+            <StatisticLine text ="all " value = {total}/>
+            <StatisticLine text ="average " value = {(good - bad) / (total)}/>
+            <StatisticLine text ="positive " value = {(good)/(total)} suffix ="%" />
+          </tbody>
+        </table>
       </>
     )
   }
   else{
     return "No feedback given"
   }
+}
+
+const StatisticLine = (props) => {
+  return (
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+      <td>{props.suffix}</td>
+    </tr>  
+  )
 }
 
 const App = () => {
