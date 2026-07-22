@@ -19,6 +19,8 @@ const App = () => {
     props.setState(props.value)
   }
 
+  let total = good + bad + neutral
+
   return (
     <div>
       <Header text = "give feedback"/>
@@ -42,6 +44,9 @@ const App = () => {
       <p>good {good}</p>
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
+      <p>all {total}</p>
+      <p>average {(good - bad) / (total)}</p>
+      <p>positive {(good)/(total)}%</p>
 
     </div>
   )
