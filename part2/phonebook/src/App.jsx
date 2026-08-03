@@ -41,11 +41,24 @@ const DeletePerson = (props) => {
   return <button onClick = {props.onClick}>delete</button>
 }
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className="error">
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [nameFilter, setNewNameFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService.getAll()
@@ -80,6 +93,12 @@ const App = () => {
         personService.editPerson(newPerson).then(response =>
           setPersons(persons.map(p => p.id === old.id ? response.data : p))
         )
+        setErrorMessage(
+          `${newName}'s number successfully changed to '${newPhoneNumber}'`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
       }
 
     }
@@ -91,6 +110,12 @@ const App = () => {
                   .then(returnedPerson => {
                     setPersons(persons.concat(returnedPerson))
                   })
+      setErrorMessage(
+          `Person '${newName}' with number '${newPhoneNumber}' successfully added`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
     }
     setNewName('')
     setNewPhoneNumber('')
@@ -117,6 +142,7 @@ const App = () => {
       <SearchFilter value={nameFilter} onChange ={handleNameFilterChange}/>
       
       <h2>Add a New</h2>
+      <Notification message={errorMessage} />
       <PersonForm 
         onSubmit={handleNameSubmit}
         newName={newName}
