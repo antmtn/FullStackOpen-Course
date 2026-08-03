@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useEffect } from 'react'
+import personService from './services/Persons'
 
 const SearchFilter = (props) => {
   return(
@@ -67,13 +67,14 @@ const App = () => {
       number: newPhoneNumber
     }
 
-    let duplicate = false
-
     if (persons.some(p => p.name === newName)){
       alert(`${newName} is already added to phonebook`)
     }
     else{
-      setPersons(persons.concat(nameObject))
+      personService.create(nameObject)
+                  .then(returnedPerson => {
+                    setPersons(persons.concat(returnedPerson))
+                  })
     }
     setNewName('')
     setNewPhoneNumber('')
