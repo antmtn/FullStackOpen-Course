@@ -19,6 +19,11 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
+    },
+    {
+      "name": "Connor",
+      "number": "Delrosso",
+      "id": "Icc58WOx9-c"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
