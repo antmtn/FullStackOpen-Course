@@ -6,6 +6,16 @@ const create = newObject => {
               .then(response => response.data)
 }
 
+const deletePerson = id => {
+  return axios.delete(`${baseUrl}/${id}`)
+}
+
+const getAll = () => {
+  return axios.get(baseUrl).then(response => response.data)
+}
+
 export default { 
-  create
+  create,
+  deletePerson,
+  getAll
 }

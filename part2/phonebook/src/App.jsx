@@ -26,13 +26,20 @@ const PersonForm = (props) => {
   )
 }
 
-const Person = (props) => <div>{props.person.name} {props.person.number}</div>
+const Person = (props) => <>{props.person.name} {props.person.number} </>
   
 
 const PeopleDisplay = (props) => 
   props.people.map(p => (
-    <Person key={p.name} person = {p}/>  
+    <div key ={p.name}>
+      <Person person = {p}/> 
+      <DeletePerson onClick={() => props.handleDelete(p)}/>
+    </div>
   ))
+
+const DeletePerson = (props) => {
+  return <button onClick = {props.onClick}>delete</button>
+}
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -41,10 +48,9 @@ const App = () => {
   const [nameFilter, setNewNameFilter] = useState('')
 
   useEffect(() => {
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response =>{
-      setPersons(response.data)
+    personService.getAll()
+    .then(people =>{
+      setPersons(people)
     })
   },[])
 
@@ -82,6 +88,19 @@ const App = () => {
 
   const peopleToShow = persons.filter(p => p.name.toLowerCase().includes(nameFilter.toLowerCase()))
 
+  const handleDelete = person =>{
+    if (window.confirm(`Delete ${person.name}?`)){
+      personService.deletePerson(person.id).then(() =>{
+        setPersons(persons.filter(p => p.id !== person.id))
+      })
+      .catch(response =>
+        console.log(response)
+      )
+    }
+    else{
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -97,7 +116,7 @@ const App = () => {
       />
       
       <h2>Numbers</h2>
-      <PeopleDisplay people={peopleToShow}/>
+      <PeopleDisplay people={peopleToShow} handleDelete = {handleDelete}/>
     </div>
   )
 }
