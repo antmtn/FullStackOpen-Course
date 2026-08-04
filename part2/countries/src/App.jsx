@@ -12,11 +12,17 @@ const CountryFinder = (props) => {
   )
 }
 
-const CountryDisplay = ({countries}) => {
+const CountryDisplay = ({countries, buttonHandler}) => {
   if (countries.length > 10){
     return <div>Too many matches, specify another filter</div>
   } else if (countries.length>1){
-    return <ul>{countries.map(c => <li key = {c.name.common}>{c.name.common}</li>)}</ul>
+    return countries.map(c => {
+    return(
+    <div key = {c.name.common}>
+      {c.name.common} 
+      <button onClick ={() => buttonHandler(c.name.common)}>Show</button>
+    </div>
+    )})
   } else if (countries.length ===1){
     return <SingularCountry country = {countries[0]}/>
   } else{
@@ -48,9 +54,14 @@ const App = () => {
     setCountry(event.target.value)
   }
 
-  const countrySubmitHandler = (event) => {
+  const countrySubmitHandler = () => {
     event.preventDefault()
     setFilter(country)
+  }
+
+  const countryButtonHandler = (countryName) => {
+    setFilter(countryName)
+    setCountry('')
   }
 
   useEffect(() => {
@@ -66,7 +77,10 @@ const App = () => {
     <div>
       Hi
       <CountryFinder country={country} onChange={countryInputHandler} onSubmit = {countrySubmitHandler}/>
-      <CountryDisplay countries = {countriesToDisplay}/>
+      <CountryDisplay 
+        countries = {countriesToDisplay}
+        buttonHandler = {countryButtonHandler}
+      />
     </div>
   )
 }
