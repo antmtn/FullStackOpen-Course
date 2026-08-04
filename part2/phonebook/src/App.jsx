@@ -41,13 +41,17 @@ const DeletePerson = (props) => {
   return <button onClick = {props.onClick}>delete</button>
 }
 
-const Notification = ({ message }) => {
+const Notification = ({message, type}) => {
   if (message === null) {
     return null
   }
+  let className = 'success'
+  if (type === false){
+    className ='error'
+  }
 
   return (
-    <div className="error">
+    <div className={`notification ${className}`}>
       {message}
     </div>
   )
@@ -59,6 +63,7 @@ const App = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [nameFilter, setNewNameFilter] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [errorType, setErrorType] = useState(true)
 
   useEffect(() => {
     personService.getAll()
@@ -92,6 +97,7 @@ const App = () => {
         const newPerson = {...old, number:newPhoneNumber}
         personService.editPerson(newPerson).then(response => {
           setPersons(persons.map(p => p.id === old.id ? response.data : p))
+          setErrorType(true)
           setErrorMessage(
             `${newName}'s number successfully changed to '${newPhoneNumber}'`
           )
@@ -100,6 +106,17 @@ const App = () => {
           }, 5000)
         }
         )
+        .catch(error => {
+          console.log(error)
+          setPersons(persons.filter(p => p.name!==newName))
+          setErrorType(false)
+          setErrorMessage(
+            `Information of ${newName} has already been removed from server`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        })
       }
 
     }
@@ -111,12 +128,13 @@ const App = () => {
                   .then(returnedPerson => {
                     setPersons(persons.concat(returnedPerson))
                   })
+      setErrorType(true)
       setErrorMessage(
           `Person '${newName}' with number '${newPhoneNumber}' successfully added`
-        )
-        setTimeout(() => {
+      )
+      setTimeout(() => {
           setErrorMessage(null)
-        }, 5000)
+      }, 5000)
     }
     setNewName('')
     setNewPhoneNumber('')
@@ -143,7 +161,7 @@ const App = () => {
       <SearchFilter value={nameFilter} onChange ={handleNameFilterChange}/>
       
       <h2>Add a New</h2>
-      <Notification message={errorMessage} />
+      <Notification message={errorMessage} type={errorType} />
       <PersonForm 
         onSubmit={handleNameSubmit}
         newName={newName}
