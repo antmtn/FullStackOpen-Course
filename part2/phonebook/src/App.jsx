@@ -90,15 +90,16 @@ const App = () => {
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
         const old = persons.find(p => p.name === newName)
         const newPerson = {...old, number:newPhoneNumber}
-        personService.editPerson(newPerson).then(response =>
+        personService.editPerson(newPerson).then(response => {
           setPersons(persons.map(p => p.id === old.id ? response.data : p))
+          setErrorMessage(
+            `${newName}'s number successfully changed to '${newPhoneNumber}'`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+        }
         )
-        setErrorMessage(
-          `${newName}'s number successfully changed to '${newPhoneNumber}'`
-        )
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
       }
 
     }
