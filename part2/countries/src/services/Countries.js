@@ -11,13 +11,7 @@ const capitalWeather = (capitalCity) => {
   return axios.get(`${weatherUrl}${capitalCity}${api_key}`).then(response => response.data)
 }
 
-const getIcon = (iconCode) => {
-  return axios.get(`https://openweathermap.org/img/wn/${iconCode}.png`)
-}
-
-
 export default {
   allCountries,
-  capitalWeather,
-  getIcon
+  capitalWeather
 }

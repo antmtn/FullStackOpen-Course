@@ -12,7 +12,7 @@ const CountryFinder = (props) => {
   )
 }
 
-const CountryDisplay = ({countries, buttonHandler, weatherHandler, weather, icon}) => {
+const CountryDisplay = ({countries, buttonHandler, weatherHandler, weather}) => {
   if (countries.length > 10){
     return <div>Too many matches, specify another filter</div>
   } else if (countries.length>1){
@@ -28,14 +28,13 @@ const CountryDisplay = ({countries, buttonHandler, weatherHandler, weather, icon
             country = {countries[0]}
             weatherHandler = {weatherHandler}
             weather = {weather}
-            icon = {icon}
             />
   } else{
     return <div>No matches, specify another filter</div>
   }
 }
 
-const SingularCountry = ({country, weatherHandler, weather, icon}) => {
+const SingularCountry = ({country, weatherHandler, weather}) => {
   weatherHandler(country.capital)
   return(
     <div>
@@ -54,7 +53,6 @@ const SingularCountry = ({country, weatherHandler, weather, icon}) => {
         <div>
           Temperature {(weather.main.temp - 273.15).toFixed(2)} Celsius
           <br/>
-          {/* FIX THIS!!!! */}
           <img src = {`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}/>
           <br/>
           Wind {weather.wind.speed} m/s
@@ -69,7 +67,6 @@ const App = () => {
   const[country, setCountry] = useState('')
   const[allCountries, setAllCountries] = useState([])
   const[filter, setFilter] = useState('')
-  const[icon, setIcon] = useState(null)
   const countryInputHandler = (event) => {
     setCountry(event.target.value)
   }
@@ -95,11 +92,9 @@ const App = () => {
 
   useEffect(() => {
     if(countriesToDisplay.length == 1){
-      setIcon(null)
       let capitalCity = countriesToDisplay[0].capital
       CountryService.capitalWeather(capitalCity).then((response)=>{
         setWeather(response)
-        CountryService.getIcon(response.weather[0].icon).then(response => setIcon(response))
       })
       
     }
@@ -119,7 +114,6 @@ const App = () => {
         buttonHandler = {countryButtonHandler}
         weatherHandler = {weatherHandler}
         weather = {weather}
-        icon = {icon}
       />
     </div>
   )
