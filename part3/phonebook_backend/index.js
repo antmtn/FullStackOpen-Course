@@ -64,6 +64,9 @@ app.post('/api/persons', (request, response)=> {
   if(!body.name || !body.number){
     return response.status(404).send('Name or number missing')
   }
+  if(persons.some(p => p.name.toLowerCase() === body.name.toLowerCase())){
+    return response.status(404).send('Name already exists in phonebook')
+  }
 
   const person = {
     id: id,
