@@ -10,6 +10,9 @@ GET http://localhost:3001/api/persons/2
 DELETE http://localhost:3001/api/persons/1
 
 ###
+DELETE http://localhost:3001/api/persons/617
+
+###
 POST http://localhost:3001/api/persons
 Content-Type: application/json
 
@@ -42,3 +45,9 @@ Content-Type: application/json
   "name": "arto hellas",
   "number": "pablo"
 }
+
+###
+GET https://fso-phonebook-olp4.onrender.com/api/persons
+
+###
+DELETE http://localhost:3001/api/persons/1

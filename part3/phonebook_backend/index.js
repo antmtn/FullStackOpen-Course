@@ -60,13 +60,17 @@ app.get('/info', (request,response) => {
 
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
+  const prevLen = persons.length
   persons = persons.filter((person) => person.id !== id)
 
+  if (prevLen === persons.length)
+    response.status(404).send(`Person with id ${id} not found`)
+  
   response.status(204).end()
 })
 
 app.post('/api/persons', (request, response)=> {
-  const id = Math.floor(Math.random()*1000) + 5
+  const id = String(Math.floor(Math.random()*1000) + 5)
   const body = request.body
 
   if(!body.name || !body.number){
