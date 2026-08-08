@@ -1,6 +1,9 @@
+require('dotenv').config()
+const Person = require('./models/person')
 const express = require('express')
 var morgan = require('morgan')
 const cors = require('cors')
+
 
 const app = express()
 
@@ -35,7 +38,9 @@ let persons = [
 ]
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Person.find({}).then(people => {
+      response.json(people)
+      })
 })
 
 app.get('/api/persons/:id', (request, response) => {
