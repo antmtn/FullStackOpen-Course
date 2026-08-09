@@ -43,22 +43,28 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  const person = persons.find((p) => p.id === id)
-
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  Person.findById(id)
+    .then(person => {
+      if (! person) {
+        return response.status(404).end()
+      }
+      response.json(person)
+    })
+    .catch(error => next(error))
 })
 
 app.get('/info', (request,response) => {
   const date = new Date()
-  response.send(
-    `<p>Phonebook has info for ${persons.length} people</p>
-    ${date}
-    `
-  )
+  let length = -1
+
+  Person.find({}).then(people => {
+    length = people.length
+    response.send(
+      `<p>Phonebook has info for ${length} people</p>
+      ${date}
+      `
+    )
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
