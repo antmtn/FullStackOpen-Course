@@ -124,17 +124,27 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     }
     else{
+      let curErrorType = true
       personService.create(nameObject)
                   .then(returnedPerson => {
                     setPersons(persons.concat(returnedPerson))
+                    setErrorType(true)
+                    setErrorMessage(
+                        `Person '${newName}' with number '${newPhoneNumber}' successfully added`
+                    )
+                    setTimeout(() => {
+                        setErrorMessage(null)
+                    }, 5000)
+                  }).catch(error =>{
+                    setErrorType(false)
+                    setErrorMessage(`${error.response.data.error}`)
+                    setTimeout(() => {
+                        setErrorMessage(null)
+                    }, 5000)
+                    setNewName('')
+                    setNewPhoneNumber('')
+                    return
                   })
-      setErrorType(true)
-      setErrorMessage(
-          `Person '${newName}' with number '${newPhoneNumber}' successfully added`
-      )
-      setTimeout(() => {
-          setErrorMessage(null)
-      }, 5000)
     }
     setNewName('')
     setNewPhoneNumber('')
