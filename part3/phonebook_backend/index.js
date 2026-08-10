@@ -11,6 +11,8 @@ app.use(express.json())
 morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
+const opts = { runValidators: true };
+
 let persons = [
     { 
       "id": "1",
@@ -42,7 +44,7 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
-  Person.findById(id)
+  Person.findById(id, opts)
     .then(person => {
       if (! person) {
         return response.status(404).end()

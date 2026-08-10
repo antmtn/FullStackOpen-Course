@@ -108,10 +108,13 @@ const App = () => {
         )
         .catch(error => {
           console.log(error)
-          setPersons(persons.filter(p => p.name!==newName))
+          personService.getAll()
+          .then(people =>{
+            setPersons(people)
+          })
           setErrorType(false)
           setErrorMessage(
-            `Information of ${newName} has already been removed from server`
+            `${error.response.data.error}`
           )
           setTimeout(() => {
             setErrorMessage(null)
@@ -124,7 +127,6 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     }
     else{
-      let curErrorType = true
       personService.create(nameObject)
                   .then(returnedPerson => {
                     setPersons(persons.concat(returnedPerson))
