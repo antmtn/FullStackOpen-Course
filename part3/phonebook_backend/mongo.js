@@ -11,7 +11,7 @@ const url = `mongodb+srv://fullstack:${password}@cluster0.t4k2y7s.mongodb.net/ph
 
 mongoose.set('strictQuery', false)
 
-mongoose.connect(url, {family: 4})
+mongoose.connect(url, { family: 4 })
 
 const personSchema = new mongoose.Schema({
   name: String,
@@ -20,16 +20,16 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model('Person', personSchema)
 
-if (process.argv.length == 3){
-  console.log("phonebook:")
+if (process.argv.length === 3){
+  console.log('phonebook:')
   Person.find({}).then(result => {
-    result.forEach(person =>{
+    result.forEach(person => {
       console.log(person.name, person.number)
     })
     mongoose.connection.close()
   })
 } else if (process.argv.length !== 5){
-  console.log("input the person's name and number to add to DB")
+  console.log('input the person\'s name and number to add to DB')
   mongoose.connection.close()
   process.exit(1)
 }
@@ -41,7 +41,7 @@ else{
     number: number
   })
 
-  person.save().then(result => {
+  person.save().then(() => {
     console.log(`added ${name} number ${number} to phonebook`)
     mongoose.connection.close()
   })
