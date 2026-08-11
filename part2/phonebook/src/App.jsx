@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import personService from './services/Persons'
 
 const SearchFilter = (props) => {
@@ -162,8 +161,6 @@ const App = () => {
       .catch(response =>
         console.log(response)
       )
-    }
-    else{
     }
   }
 
