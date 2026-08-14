@@ -71,35 +71,7 @@ const listWithManyBlogs = [
 }  
 ]
 
-const listWithEqualFavoriteBlogs = [
-{
-  _id: "5a422a851b54a676234d17f7",
-  title: "React patterns",
-  author: "Michael Chan",
-  url: "https://reactpatterns.com/",
-  likes: 20,
-  __v: 0
-},
-{
-  _id: "5a422aa71b54a676234d17f8",
-  title: "Go To Statement Considered Harmful",
-  author: "Edsger W. Dijkstra",
-  url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-  likes: 7,
-  __v: 0
-},
-{
-  _id: "5a422b3a1b54a676234d17f9",
-  title: "Canonical string reduction",
-  author: "Edsger W. Dijkstra",
-  url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-  likes: 20,
-  __v: 0
-},
-]
-
 describe('total likes', () => {
-
   test('when list is empty, total is 0', () => {
     const result = listHelper.totalLikes([])
     assert.strictEqual(result, 0)
@@ -115,7 +87,32 @@ describe('total likes', () => {
 })
 
 describe('favorite blog', () => {
-
+  const listWithEqualFavoriteBlogs = [
+  {
+    _id: "5a422a851b54a676234d17f7",
+    title: "React patterns",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 20,
+    __v: 0
+  },
+  {
+    _id: "5a422aa71b54a676234d17f8",
+    title: "Go To Statement Considered Harmful",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    likes: 7,
+    __v: 0
+  },
+  {
+    _id: "5a422b3a1b54a676234d17f9",
+    title: "Canonical string reduction",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 20,
+    __v: 0
+  },
+  ]
   test('when list is empty, favorite is null', () => {
     const result = listHelper.favoriteBlog([])
     assert.strictEqual(result, null)
@@ -132,5 +129,60 @@ describe('favorite blog', () => {
   test('when list has many blogs with maximum likes, one blog returned', () => {
     const result = listHelper.favoriteBlog(listWithEqualFavoriteBlogs)
     assert.deepStrictEqual(result, listWithEqualFavoriteBlogs[0])
+  })
+})
+
+describe('most blogs', () => {
+
+  const listWithEqualMostBlogs = [
+  {
+    _id: "5a422a851b54a676234d17f7",
+    title: "React patterns",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 20,
+    __v: 0
+  },
+  {
+    _id: "5a422aa71b54a676234d17f8",
+    title: "Go To Statement Considered Harmful",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    likes: 7,
+    __v: 0
+  }
+  ]
+
+  test('when list is empty, author is null', () => {
+    const result = listHelper.mostBlogs([])
+    assert.strictEqual(result, null)
+  })
+  test('when list has only one blog, author is returned', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    assert.deepStrictEqual(result, 
+      {
+        'author': 'Edsger W. Dijkstra',
+        'blogs': 1
+      } 
+    )
+  })
+  test('when list has many blogs, correct author returned', () => {
+    const result = listHelper.mostBlogs(listWithManyBlogs)
+    assert.deepStrictEqual(result, 
+      {
+        'author' : "Robert C. Martin",
+        'blogs' : 3 
+      }
+    )
+  })
+
+  test('when list has equal frequent posters, return one', () => {
+    const result = listHelper.mostBlogs(listWithEqualMostBlogs)
+    assert.deepStrictEqual(result, 
+      {
+        'author' : "Michael Chan",
+        'blogs' : 1 
+      }
+    )
   })
 })
