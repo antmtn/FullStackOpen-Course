@@ -186,3 +186,10 @@ describe('most blogs', () => {
     )
   })
 })
+
+describe('most likes', () => {
+  test('when list has one blog, correct author returned', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    assert.deepStrictEqual(result, {'author' : 'Edsger W. Dijkstra', 'likes': 5})
+  })
+})
