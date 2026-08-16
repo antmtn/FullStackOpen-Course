@@ -188,8 +188,49 @@ describe('most blogs', () => {
 })
 
 describe('most likes', () => {
+  const listWithEqualMostBlogs = [
+  {
+    _id: "5a422a851b54a676234d17f7",
+    title: "React patterns",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 10,
+    __v: 0
+  },
+  {
+    _id: "5a422aa71b54a676234d17f8",
+    title: "Go To Statement Considered Harmful",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+    likes: 10,
+    __v: 0
+  }
+  ]
+
+  test('when list is empty, result is null', () => {
+    const result = listHelper.mostLikes([])
+    assert.strictEqual(result, null)
+  })
   test('when list has one blog, correct author returned', () => {
     const result = listHelper.mostLikes(listWithOneBlog)
     assert.deepStrictEqual(result, {'author' : 'Edsger W. Dijkstra', 'likes': 5})
+  })
+  test('when list has many blogs, correct author and likes returned', () => {
+    const result = listHelper.mostLikes(listWithManyBlogs)
+    assert.deepStrictEqual(result, 
+      {
+        'author' : "Edsger W. Dijkstra",
+        'likes' : 17 
+      }
+    )
+  })
+  test('when list has authors of equal total likes, return one', () => {
+    const result = listHelper.mostLikes(listWithEqualMostBlogs)
+    assert.deepStrictEqual(result, 
+      {
+        'author' : "Michael Chan",
+        'likes' : 10 
+      }
+    )
   })
 })
