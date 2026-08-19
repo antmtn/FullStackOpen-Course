@@ -106,6 +106,21 @@ test('post endpoint creates blog post with likes missing', async () => {
   const response_all = await api.get('/api/blogs')
   assert.strictEqual(response_all.body.length,7)
 })
+
+test('post endpoint does not create post with title or url missing', async () => {
+  const response = await api
+    .post('/api/blogs')
+    .send( {title: 'test', author:'author', likes:6})
+  assert.strictEqual(response.statusCode, 400)
+
+  const response2 = await api
+      .post('/api/blogs')
+      .send( {author:'author',url:'url', likes:6})
+  assert.strictEqual(response2.statusCode, 400)
+
+  const response_all = await api.get('/api/blogs')
+  assert.strictEqual(response_all.body.length,6)
+})
 after(async () => {
   await mongoose.connection.close()
 })
