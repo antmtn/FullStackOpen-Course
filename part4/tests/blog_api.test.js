@@ -77,6 +77,7 @@ test('returned blogs have id property named "id"', async () => {
 })
 
 test('post endpoint correctly creates a new blog post', async () => {
+
   const response = await api
     .post('/api/blogs')
     .send( {title: 'test', author:'author',url:'url', likes:6})
@@ -87,6 +88,8 @@ test('post endpoint correctly creates a new blog post', async () => {
     blog.url === 'url' &&
     blog.likes === 6
   )
+  const response_all = await api.get('/api/blogs')
+  assert.strictEqual(response_all.body.length,7)
 })
 after(async () => {
   await mongoose.connection.close()
