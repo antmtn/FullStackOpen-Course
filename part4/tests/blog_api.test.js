@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const { update } = require('lodash')
 
 const api = supertest(app)
 
@@ -138,6 +139,33 @@ test('delete does not delete a post when not present ID provided', async() => {
 
   const responseAll = await api.get('/api/blogs')
   assert.strictEqual(responseAll.body.length,6)
+})
+
+test('put endpoint correctly updates information of blog post', async() => {
+  const id = initialBlogs[0]._id
+  const updatedInfo = {title: 'test', author:'author',url:'url', likes:6}
+  const response = await api.put(`/api/blogs/${id}`).send(updatedInfo)
+  const blog = response.body
+  assert.strictEqual(true, 
+    blog.title === updatedInfo.title &&
+    blog.author === updatedInfo.author &&
+    blog.url === updatedInfo.url &&
+    blog.likes === updatedInfo.likes
+  )
+})
+
+test('put endpoint returns 404 when post not found', async() => {
+  const id = "5a422bc61b54a676234d17fd"
+  const updatedInfo = {title: 'test', author:'author',url:'url', likes:6}
+  const response = await api.put(`/api/blogs/${id}`).send(updatedInfo)
+  assert.strictEqual(response.status, 404)
+})
+
+test('put endpoint returns 404 when id has cast error', async() => {
+  const id = "22"
+  const updatedInfo = {title: 'test', author:'author',url:'url', likes:6}
+  const response = await api.put(`/api/blogs/${id}`).send(updatedInfo)
+  assert.strictEqual(response.status, 404)
 })
 
 
