@@ -121,6 +121,27 @@ test('post endpoint does not create post with title or url missing', async () =>
   const response_all = await api.get('/api/blogs')
   assert.strictEqual(response_all.body.length,6)
 })
+
+test('delete correctly deletes a post when correct ID provided', async() => {
+  const id = initialBlogs[0]._id
+  const response = await api.delete(`/api/blogs/${id}`)
+
+  const responseAll = await api.get('/api/blogs')
+  const inList = responseAll.body.some(blog => blog.id === id)
+  assert.strictEqual(inList, false)
+  assert.strictEqual(responseAll.body.length,5)
+})
+
+test('delete does not delete a post when not present ID provided', async() => {
+  const id = 22
+  const response = await api.delete(`/api/blogs/${id}`)
+
+  const responseAll = await api.get('/api/blogs')
+  assert.strictEqual(responseAll.body.length,6)
+})
+
+
+
 after(async () => {
   await mongoose.connection.close()
 })

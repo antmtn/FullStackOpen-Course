@@ -1,4 +1,5 @@
 const blogsRouter = require('express').Router()
+const { request } = require('../app')
 const Blog = require('../models/blog')
 
 blogsRouter.get('/', async (request, response) => {
@@ -14,7 +15,12 @@ blogsRouter.post('/', async (request, response) => {
   if (blog.likes === undefined) blog.likes = 0
   const result = await blog.save()
   response.status(201).json(result)
-  console.log("Done Processing")
+})
+
+blogsRouter.delete('/:id', async (request, response) => {
+  await Blog.findByIdAndDelete(request.params.id)
+  response.status(204).end()
+  // catch not needed because express automatically calls error-handling middleware
 })
 
 module.exports = blogsRouter
