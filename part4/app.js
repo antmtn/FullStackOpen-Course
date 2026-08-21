@@ -2,7 +2,7 @@ const config = require('./utils/config')
 const express = require('express')
 const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
-const usersRouter = reqiure('./controllers/users')
+const usersRouter = require('./controllers/users')
 
 const app = express()
 
@@ -24,6 +24,8 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message)
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'invalid id' })
+  } else if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error')){
+    return response.status(400).json({ error: 'expected `username` to be unique'})
   }
   next(error)
 }
