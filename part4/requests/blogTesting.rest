@@ -11,6 +11,17 @@ Content-Type: application/json
   "likes": 6,
   "userId": "6a88c7fd286f7bc5912b236f"
 }
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Test Title 2",
+  "author": "author A",
+  "url": "hello",
+  "likes": 6,
+  "userId": "6a88c7fd286f7bc5912b236f"
+}
 
 ###
 POST http://localhost:3003/api/blogs
@@ -20,7 +31,8 @@ Content-Type: application/json
   "title": "Test Title B",
   "author": "author B",
   "url": "hello",
-  "likes": 7
+  "likes": 7,
+  "userId": "6a891a4261fe3766427febae"
 }
 
 ###
@@ -31,5 +43,6 @@ Content-Type: application/json
   "title": "Test Title C",
   "author": "author C",
   "url": "hello C",
-  "likes": 8
+  "likes": 8,
+  "userId": "6a891a4261fe3766427febae"
 }

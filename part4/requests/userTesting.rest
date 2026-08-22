@@ -1,3 +1,5 @@
+GET http://localhost:3003/api/users
+###
 POST http://localhost:3003/api/users
 Content-Type: application/json
 
@@ -7,4 +9,11 @@ Content-Type: application/json
   "password": "password"
 }
 ###
-GET http://localhost:3003/api/users
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "user2",
+  "name": "user 2",
+  "password": "password"
+}
