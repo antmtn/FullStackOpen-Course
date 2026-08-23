@@ -60,6 +60,84 @@ describe('when there is initially one user in db', () => {
 
     assert.strictEqual(usersAtEnd.length, usersAtStart.length)
   })
+
+  test('creation fails with proper statuscode and message if username is less than 3 characters', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'an',
+      name:'anton',
+      password: 'climb'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert(result.body.error.includes('username and password must be at least 3 characters long'))
+    assert.strictEqual(usersAtStart.length, usersAtEnd.length)
+  })
+
+  test('creation fails with proper statuscode and message if password is less than 3 characters', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'anton',
+      name:'anton',
+      password: 'cl'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert(result.body.error.includes('username and password must be at least 3 characters long'))
+    assert.strictEqual(usersAtStart.length, usersAtEnd.length)
+  })
+
+  test('creation fails with proper statuscode and message if password missing', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'anton',
+      name:'anton'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert(result.body.error.includes('username and password required'))
+    assert.strictEqual(usersAtStart.length, usersAtEnd.length)
+  })
+
+  test('creation fails with proper statuscode and message if username missing', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      name:'anton',
+      password: 'cl'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    assert(result.body.error.includes('username and password required'))
+    assert.strictEqual(usersAtStart.length, usersAtEnd.length)
+  })
 })
 
 after(async () => {
