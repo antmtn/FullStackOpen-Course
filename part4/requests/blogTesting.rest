@@ -3,14 +3,13 @@ GET http://localhost:3003/api/blogs
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpZCI6IjZhODhjN2ZkMjg2ZjdiYzU5MTJiMjM2ZiIsImlhdCI6MTc4NzQzNzA2MX0.tvNNWf0-bpZTBFofTZtkEJlLR24CDEKefVhh-jz2Y14
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpZCI6IjZhOGI4ZGU5MTNjZDMzNDUwZDUxMTM2ZiIsImlhdCI6MTc4NzUzMDgxMCwiZXhwIjoxNzg3NTM0NDEwfQ.fhFloSbkNBcBIzgzYLlhWffFfvlNY8t4YnW3q3ASzsI
 
 {
-  "title": "Test Title Signed 2",
-  "author": "author A",
+  "title": "Test Title 1",
+  "author": "user 1",
   "url": "hello",
-  "likes": 6,
-  "userId": "6a88c7fd286f7bc5912b236f"
+  "likes": 6
 }
 ###
 POST http://localhost:3003/api/blogs

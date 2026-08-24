@@ -1,9 +1,12 @@
+require('dotenv').config()
 const config = require('./utils/config')
 const express = require('express')
 const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const User = require('./models/user')
+const jwt = require('jsonwebtoken')
 
 const app = express()
 
@@ -27,7 +30,15 @@ const tokenExtractor = (request, response, next) => {
 }
 app.use(tokenExtractor)
 
-app.use('/api/blogs', blogsRouter)
+const userExtractor = async(request, response, next) => {
+  if (request.token){
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    request.user = await User.findById(decodedToken.id)
+  }
+  next()
+}
+
+app.use('/api/blogs', userExtractor, blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 

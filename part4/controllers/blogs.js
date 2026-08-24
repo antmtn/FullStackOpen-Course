@@ -21,14 +21,7 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  console.log("Token", request.token)
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  console.log("Decoded Token", decodedToken)
-  if(!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid'})
-  }
-
-  const user = await User.findById(decodedToken.id)
+  const user = request.user
 
   if(body.title === undefined || body.url === undefined){
     return response.status(400).send("title or url missing")
