@@ -47,12 +47,17 @@ blogsRouter.post('/', async (request, response) => {
 blogsRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (blog.user.toString() !== decodedToken.id.toString()){
+  const user = request.user
+  console.log('user',user)
+  console.log('blog', blog)
+  if (blog.user.toString() !== user._id.toString()){
     return response.status(401).json({
       error: 'users can only delete their own posts'
     })
   }
+
+  user.blogs = user.blogs.filter(blogId => blogId.toString() !== blog._id.toString())
+  await user.save()
 
   await Blog.findByIdAndDelete(request.params.id)
   response.status(204).end()

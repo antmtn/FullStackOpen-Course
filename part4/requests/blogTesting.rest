@@ -6,7 +6,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpZCI6IjZhOGI4ZGU5MTNjZDMzNDUwZDUxMTM2ZiIsImlhdCI6MTc4NzUzMDgxMCwiZXhwIjoxNzg3NTM0NDEwfQ.fhFloSbkNBcBIzgzYLlhWffFfvlNY8t4YnW3q3ASzsI
 
 {
-  "title": "Test Title 1",
+  "title": "Test Title 2",
   "author": "user 1",
   "url": "hello",
   "likes": 6
@@ -59,8 +59,8 @@ Content-Type: application/json
   "userId": "6a891a4261fe3766427febae"
 }
 ###
-DELETE http://localhost:3003/api/blogs/6a891a6961fe3766427febb0
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpZCI6IjZhODhjN2ZkMjg2ZjdiYzU5MTJiMjM2ZiIsImlhdCI6MTc4NzQzNzA2MX0.tvNNWf0-bpZTBFofTZtkEJlLR24CDEKefVhh-jz2Y14
+DELETE http://localhost:3003/api/blogs/6a8b92b0ea52d6e53eed1f35
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpZCI6IjZhOGI4ZGU5MTNjZDMzNDUwZDUxMTM2ZiIsImlhdCI6MTc4NzUzMDgxMCwiZXhwIjoxNzg3NTM0NDEwfQ.fhFloSbkNBcBIzgzYLlhWffFfvlNY8t4YnW3q3ASzsI
 ### Note: Token expires after 1 hour
 DELETE http://localhost:3003/api/blogs/6a8a21a4581b8c934ba1ead6
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIyIiwiaWQiOiI2YTg5MWE0MjYxZmUzNzY2NDI3ZmViYWUiLCJpYXQiOjE3ODc1Mjk0ODksImV4cCI6MTc4NzUzMzA4OX0.GnaqmWsCvPJBiiLR64pDcOQe7Bw2-6aFeFOvRpMjYz4
