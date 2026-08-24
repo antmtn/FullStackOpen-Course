@@ -23,13 +23,13 @@ blogsRouter.post('/', async (request, response) => {
 
   const user = request.user
 
+  if (!user) {
+    return response.status(401).json({error: 'missing token'})
+  }
   if(body.title === undefined || body.url === undefined){
     return response.status(400).send("title or url missing")
   }
 
-  if (!user) {
-    return response.status(400).json({error: 'userId missing or not valid'})
-  }
   const blog = new Blog({
     title: body.title,
     author: body.author,

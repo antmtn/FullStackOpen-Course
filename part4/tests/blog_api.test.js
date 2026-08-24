@@ -4,7 +4,10 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const { update } = require('lodash')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 const api = supertest(app)
 
@@ -59,9 +62,29 @@ const initialBlogs = [
   }  
 ]
 
+let token = null
+
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(initialBlogs)
+  await User.deleteMany({})
+  await User.insertOne(
+    {
+      _id: "5a422a851b54a676234d17f7",
+      username:"user",
+      name:"user one",
+      passwordHash: null,
+      __v: 0
+    }
+  )
+
+  token = jwt.sign(
+    {
+    username: "user",
+    id: "5a422a851b54a676234d17f7"
+    },
+    process.env.SECRET
+  )
 })
 
 test('all blogs returned as json', async () => {
@@ -81,6 +104,7 @@ test('post endpoint correctly creates a new blog post', async () => {
 
   const response = await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send( {title: 'test', author:'author',url:'url', likes:6})
   const blog = response.body
   assert.strictEqual(true, 
@@ -96,6 +120,7 @@ test('post endpoint correctly creates a new blog post', async () => {
 test('post endpoint creates blog post with likes missing', async () => {
   const response = await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send( {title: 'test', author:'author',url:'url'})
   const blog = response.body
   assert.strictEqual(true, 
@@ -111,12 +136,14 @@ test('post endpoint creates blog post with likes missing', async () => {
 test('post endpoint does not create post with title or url missing', async () => {
   const response = await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send( {title: 'test', author:'author', likes:6})
   assert.strictEqual(response.statusCode, 400)
 
   const response2 = await api
-      .post('/api/blogs')
-      .send( {author:'author',url:'url', likes:6})
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send( {author:'author',url:'url', likes:6})
   assert.strictEqual(response2.statusCode, 400)
 
   const response_all = await api.get('/api/blogs')
@@ -166,6 +193,13 @@ test('put endpoint returns 404 when id has cast error', async() => {
   const updatedInfo = {title: 'test', author:'author',url:'url', likes:6}
   const response = await api.put(`/api/blogs/${id}`).send(updatedInfo)
   assert.strictEqual(response.status, 404)
+})
+
+test('post endpoint returns 401 when token not provided', async () => {
+  const response = await api
+    .post('/api/blogs/')
+    .send({title: 'test', author:'author',url:'url', likes:6})
+  assert.strictEqual(response.status, 401)
 })
 
 
