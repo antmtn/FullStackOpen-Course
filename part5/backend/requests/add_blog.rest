@@ -1,5 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJpZCI6IjZhOGI4ZGU5MTNjZDMzNDUwZDUxMTM2ZiIsImlhdCI6MTc4NzcyNDUwNn0.Gk46XkoXf9AG_1vdQLDujZ7IcEbp38FMYwHchoFJ66Q
 
 {
   "title": "Clean Code: The Good, the Bad and the Ugly",
