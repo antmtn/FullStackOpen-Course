@@ -32,12 +32,16 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+
+      {user && (
+        <p>{user.name} logged in</p>
+      )}
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
 
-      {!user &&<h2>Login</h2>}
-      {!user && (
+      {!user && (<div>
+        <h2>Login</h2>
         <LoginForm
           handleLogin={handleLogin}
           username={username}
@@ -45,8 +49,8 @@ const App = () => {
           setUsername={setUsername}
           setPassword={setPassword}
         />
+        </div>
       )}
-      
     </div>
   )
 }
