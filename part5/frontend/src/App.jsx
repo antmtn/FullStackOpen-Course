@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import LoginForm from './components/LoginForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,30 +15,6 @@ const App = () => {
       setBlogs( blogs )
     )  
   }, [])
-
-  const loginForm = () => (
-  <form onSubmit = {handleLogin}>
-        <div>
-          <label>
-            username
-            <input
-              type ="text"
-              value ={username}
-              onChange={({target}) => setUsername(target.value)}
-            />
-          </label>
-        </div>
-          <label>
-            password
-            <input
-              type="password"
-              value={password}
-              onChange={({target}) => setPassword(target.value)}
-            />
-          </label>
-          <button type="submit">login</button>
-      </form>
-  )
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -60,7 +37,15 @@ const App = () => {
       )}
 
       {!user &&<h2>Login</h2>}
-      {!user && loginForm()}
+      {!user && (
+        <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword}
+        />
+      )}
       
     </div>
   )
