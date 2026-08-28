@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,6 +14,7 @@ const App = () => {
   const [titleField, setTitleField] = useState('')
   const [authorField, setAuthorField] = useState('')
   const [urlField, setUrlField] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -39,8 +41,19 @@ const App = () => {
     setTitleField('')
     setAuthorField('')
     setUrlField('')
+    try {
     const returnedBlog = await blogService.create(blogObject)
+    setMessage(`a new blog ${titleField} by ${authorField} added`)
+    setTimeout(() => {
+      setMessage(null)
+    },5000)
     setBlogs(blogs.concat(returnedBlog))
+    } catch {
+      setMessage(`problems adding blog`)
+      setTimeout(() => {
+        setMessage(null)
+      },5000)
+    }
   }
 
   const handleTitleChange = event => {
@@ -71,13 +84,17 @@ const App = () => {
        )
        blogService.setToken(user.token)
     } catch {
-      alert("wrong credentials")
+      setMessage("wrong username or password")
+      setTimeout(() => {
+        setMessage(null)
+      },5000)
     }
   }
 
   if(user === null){
     return(
       <div>
+        <Notification message={message}/>
         <h2>Log in to application</h2>
         <LoginForm
           handleLogin={handleLogin}
@@ -92,6 +109,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={message}/>
       <h2>blogs</h2>
       <p>
         {user.name} logged in
