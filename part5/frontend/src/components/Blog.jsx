@@ -1,8 +1,25 @@
 import { useState } from "react"
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, putBlog }) => {
   const [detailVisible, setDetailVisible] = useState(false)
+  const [blogLikes, setBlogLikes] = useState(blog.likes)
   const showWhenVisible = {display: detailVisible ? '' : 'none'}
+
+  const handleLike = () => {
+    const nextLikes = blogLikes + 1
+    setBlogLikes(nextLikes)
+
+    const blogObject = {
+      id: blog.id,
+      user: blog.user._id,
+      likes: nextLikes,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url
+    }
+
+    putBlog(blogObject)
+  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -22,7 +39,7 @@ const Blog = ({ blog }) => {
     </div>
     <div style={showWhenVisible}>
       {blog.url}<br/>
-      likes {blog.likes} <button>like</button><br/>
+      likes {blogLikes} <button onClick={handleLike}>like</button><br/>
       {blog.user.name}
     </div>
   </div>  

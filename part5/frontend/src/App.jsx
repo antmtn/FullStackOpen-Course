@@ -31,7 +31,7 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-    const returnedBlog = await blogService.create(blogObject)
+    const returnedBlog = await blogService.put(blogObject)
     setBlogs(blogs.concat(returnedBlog))
     setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
     setTimeout(() => {
@@ -39,6 +39,18 @@ const App = () => {
     },5000)
     } catch {
       setMessage(`problems adding blog`)
+      setTimeout(() => {
+        setMessage(null)
+      },5000)
+    }
+  }
+
+  const putBlog = async (blogObject) => {
+    try {
+    const returnedBlog = await blogService.put(blogObject)
+    setBlogs(blogs.concat(returnedBlog))
+    } catch {
+      setMessage(`problems updating blog`)
       setTimeout(() => {
         setMessage(null)
       },5000)
@@ -104,9 +116,9 @@ const App = () => {
           createBlog={createBlog}
         />
       </Togglable>
-      
+
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} putBlog={putBlog}/>
       )}
     </div>
   )
