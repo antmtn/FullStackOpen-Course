@@ -1,4 +1,12 @@
-const BlogForm = ({addBlog, titleField, handleTitleChange, authorField, handleAuthorChange, urlField, handleUrlChange}) => {
+const BlogForm = ({
+  addBlog, 
+  titleField, 
+  handleTitleChange, 
+  authorField, 
+  handleAuthorChange, 
+  urlField, 
+  handleUrlChange
+  }) => {
   return (
     <form onSubmit = {addBlog}>
         title:
