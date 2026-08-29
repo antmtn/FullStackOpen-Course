@@ -12,9 +12,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const[user, setUser] = useState(null)
-  const [titleField, setTitleField] = useState('')
-  const [authorField, setAuthorField] = useState('')
-  const [urlField, setUrlField] = useState('')
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
@@ -32,39 +29,20 @@ const App = () => {
     }
   }, [])
 
-  const addBlog = async event => {
-    event.preventDefault()
-    const blogObject = {
-      title:titleField,
-      author:authorField,
-      url:urlField
-    }
-    setTitleField('')
-    setAuthorField('')
-    setUrlField('')
+  const createBlog = async (blogObject) => {
     try {
     const returnedBlog = await blogService.create(blogObject)
-    setMessage(`a new blog ${titleField} by ${authorField} added`)
+    setBlogs(blogs.concat(returnedBlog))
+    setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
     setTimeout(() => {
       setMessage(null)
     },5000)
-    setBlogs(blogs.concat(returnedBlog))
     } catch {
       setMessage(`problems adding blog`)
       setTimeout(() => {
         setMessage(null)
       },5000)
     }
-  }
-
-  const handleTitleChange = event => {
-    setTitleField(event.target.value)
-  }
-  const handleAuthorChange = event => {
-    setAuthorField(event.target.value)
-  }
-  const handleUrlChange = event => {
-    setUrlField(event.target.value)
   }
 
   const handleLogout = () => {
@@ -123,13 +101,7 @@ const App = () => {
         closeLabel="cancel"
       >
         <BlogForm
-          addBlog={addBlog}
-          titleField={titleField}
-          handleTitleChange = {handleTitleChange}
-          authorField={authorField}
-          handleAuthorChange={handleAuthorChange}
-          urlField={urlField}
-          handleUrlChange={handleUrlChange}
+          createBlog={createBlog}
         />
       </Togglable>
       {blogs.map(blog =>
