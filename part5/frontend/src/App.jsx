@@ -31,7 +31,7 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-    const returnedBlog = await blogService.put(blogObject)
+    const returnedBlog = await blogService.create(blogObject)
     setBlogs(blogs.concat(returnedBlog))
     setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
     setTimeout(() => {
@@ -120,7 +120,7 @@ const App = () => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} putBlog={putBlog}/>
+        <Blog key={blog.id} blog={blog} putBlog={putBlog} user={user}/>
       )}
     </div>
   )

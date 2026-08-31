@@ -15,7 +15,7 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
   const blog = new Blog(request.body)
 
   blog.likes = blog.likes | 0
-  blog.user = user._id
+  blog.user = user
 
   if (!blog.title || !blog.url) {
     return response.status(400).send({ error: 'title or url missing' })
