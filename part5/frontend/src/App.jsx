@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a,b) => b.likes-a.likes))
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -31,14 +31,14 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     try {
-    const returnedBlog = await blogService.create(blogObject)
-    setBlogs(blogs.concat(returnedBlog))
-    setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
-    setTimeout(() => {
-      setMessage(null)
-    },5000)
+      const returnedBlog = await blogService.create(blogObject)
+      setBlogs(blogs.concat(returnedBlog))
+      setMessage(`a new blog ${blogObject.title} by ${blogObject.author} added`)
+      setTimeout(() => {
+        setMessage(null)
+      },5000)
     } catch {
-      setMessage(`problems adding blog`)
+      setMessage('problems adding blog')
       setTimeout(() => {
         setMessage(null)
       },5000)
@@ -47,12 +47,12 @@ const App = () => {
 
   const putBlog = async (blogObject) => {
     try {
-    const returnedBlog = await blogService.put(blogObject)
-    const prevBlog = blogs.find((blog) => (blog.id === returnedBlog.id))
-    const newBlog = {...prevBlog, likes: returnedBlog.likes}
-    setBlogs(blogs.map(b => b.id === returnedBlog.id ? newBlog : b).sort((a,b) => b.likes-a.likes))
+      const returnedBlog = await blogService.put(blogObject)
+      const prevBlog = blogs.find((blog) => (blog.id === returnedBlog.id))
+      const newBlog = { ...prevBlog, likes: returnedBlog.likes }
+      setBlogs(blogs.map(b => b.id === returnedBlog.id ? newBlog : b).sort((a,b) => b.likes-a.likes))
     } catch {
-      setMessage(`problems updating blog`)
+      setMessage('problems updating blog')
       setTimeout(() => {
         setMessage(null)
       },5000)
@@ -65,11 +65,11 @@ const App = () => {
         blogService.deleteBlog(blogObject.id)
         setMessage(`blog ${blogObject.title} by ${blogObject.author} deleted`)
         setBlogs(blogs.filter(b => b.id !== blogObject.id))
-      setTimeout(() => {
-        setMessage(null)
-      },5000)
+        setTimeout(() => {
+          setMessage(null)
+        },5000)
       } catch {
-        setMessage(`problems deleting blog`)
+        setMessage('problems deleting blog')
         setTimeout(() => {
           setMessage(null)
         },5000)
@@ -84,18 +84,17 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
     try{
-       const user = await loginService.login({ username, password})
-       setUser(user)
-       setUsername('')
-       setPassword('')
-       window.localStorage.setItem(
+      const user = await loginService.login({ username, password })
+      setUser(user)
+      setUsername('')
+      setPassword('')
+      window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-       )
-       blogService.setToken(user.token)
+      )
+      blogService.setToken(user.token)
     } catch {
-      setMessage("wrong username or password")
+      setMessage('wrong username or password')
       setTimeout(() => {
         setMessage(null)
       },5000)
@@ -114,7 +113,7 @@ const App = () => {
           setUsername={setUsername}
           setPassword={setPassword}
         />
-        </div>
+      </div>
     )
   }
 
@@ -138,10 +137,10 @@ const App = () => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Blog 
-          key={blog.id} 
-          blog={blog} 
-          putBlog={putBlog} 
+        <Blog
+          key={blog.id}
+          blog={blog}
+          putBlog={putBlog}
           user={user}
           deleteBlog = {deleteBlog}
         />
