@@ -16,7 +16,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( blogs.sort((a,b) => b.likes-a.likes))
     )  
   }, [])
 
@@ -50,7 +50,7 @@ const App = () => {
     const returnedBlog = await blogService.put(blogObject)
     const prevBlog = blogs.find((blog) => (blog.id === returnedBlog.id))
     const newBlog = {...prevBlog, likes: returnedBlog.likes}
-    setBlogs(blogs.map(b => b.id === returnedBlog.id ? newBlog : b))
+    setBlogs(blogs.map(b => b.id === returnedBlog.id ? newBlog : b).sort((a,b) => b.likes-a.likes))
     } catch {
       setMessage(`problems updating blog`)
       setTimeout(() => {
