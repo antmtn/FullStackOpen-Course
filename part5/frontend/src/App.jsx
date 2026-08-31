@@ -48,7 +48,9 @@ const App = () => {
   const putBlog = async (blogObject) => {
     try {
     const returnedBlog = await blogService.put(blogObject)
-    setBlogs(blogs.concat(returnedBlog))
+    const prevBlog = blogs.find((blog) => (blog.id === returnedBlog.id))
+    const newBlog = {...prevBlog, likes: returnedBlog.likes}
+    setBlogs(blogs.map(b => b.id === returnedBlog.id ? newBlog : b))
     } catch {
       setMessage(`problems updating blog`)
       setTimeout(() => {
