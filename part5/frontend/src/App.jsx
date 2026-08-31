@@ -59,6 +59,24 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async (blogObject) => {
+    if (window.confirm(`Remove blog ${blogObject.title} by ${blogObject.author}`)){
+      try{
+        blogService.deleteBlog(blogObject.id)
+        setMessage(`blog ${blogObject.title} by ${blogObject.author} deleted`)
+        setBlogs(blogs.filter(b => b.id !== blogObject.id))
+      setTimeout(() => {
+        setMessage(null)
+      },5000)
+      } catch {
+        setMessage(`problems deleting blog`)
+        setTimeout(() => {
+          setMessage(null)
+        },5000)
+      }
+    }
+  }
+
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
@@ -120,7 +138,13 @@ const App = () => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} putBlog={putBlog} user={user}/>
+        <Blog 
+          key={blog.id} 
+          blog={blog} 
+          putBlog={putBlog} 
+          user={user}
+          deleteBlog = {deleteBlog}
+        />
       )}
     </div>
   )
