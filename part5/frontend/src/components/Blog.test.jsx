@@ -55,3 +55,35 @@ test('content shown after clicking view button', async() => {
   expect(url).toBeVisible()
   expect(likes).toBeVisible()
 })
+test('like handler is called twice after button clicked twice', async () => {
+  const sampleUser = {
+    name:'Joseph A. Test',
+    username:'Joe T'
+  }
+  const blog = {
+    title: 'Component testing',
+    author: 'Joseph Test',
+    url: 'Joseph.com',
+    likes: '67',
+    user:{
+      name:'Joseph A. Test',
+      username:'Joe T'
+    }
+  }
+  const mockHandler = vi.fn()
+  const user = userEvent.setup()
+
+  const { container } = render(<Blog blog={blog} putBlog={mockHandler} user={sampleUser} />)
+
+  const viewButton = screen.getByText('view')
+  await user.click(viewButton)
+
+  const likeButton = container.querySelector('#likeButton')
+
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+
+
+})

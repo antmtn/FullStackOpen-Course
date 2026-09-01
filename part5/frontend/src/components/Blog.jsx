@@ -39,7 +39,12 @@ const Blog = ({ blog, putBlog, user, deleteBlog }) => {
       </div>
       <div style={showWhenVisible}>
         {blog.url}<br/>
-        likes {blogLikes} <button onClick={handleLike}>like</button><br/>
+        likes {blogLikes} 
+        <button 
+          onClick={handleLike}
+          id = 'likeButton'
+        >like</button>
+        <br/>
         {blog.user.name}
       </div>
       {user.username === blog.user.username && detailVisible &&<button onClick = { () => deleteBlog(blog)}>remove</button> }
