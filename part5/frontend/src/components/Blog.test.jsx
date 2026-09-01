@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
+import BlogForm from './BlogForm'
 
 test('renders content', () => {
   const user = {
@@ -84,6 +85,28 @@ test('like handler is called twice after button clicked twice', async () => {
   await user.click(likeButton)
 
   expect(mockHandler.mock.calls).toHaveLength(2)
+})
 
+test('blog form handler called with correct details when blog created' , async () => {
+  const createBlog = vi.fn()
+  const user = userEvent.setup()
+
+  const { container } = render(<BlogForm createBlog={createBlog}/>)
+
+  const titleInput = container.querySelector('#titleInput')
+  const authorInput = container.querySelector('#authorInput')
+  const urlInput = container.querySelector('#urlInput')
+
+  await user.type(titleInput, 'Component Testing')
+  await user.type(authorInput, 'Joseph Test')
+  await user.type(urlInput, 'Joseph.com')
+
+  const createButton = screen.getByText('create')
+  await user.click(createButton)
+
+  expect(createBlog.mock.calls).toHaveLength(1)
+  expect(createBlog.mock.calls[0][0].title).toBe('Component Testing')
+  expect(createBlog.mock.calls[0][0].author).toBe('Joseph Test')
+  expect(createBlog.mock.calls[0][0].url).toBe('Joseph.com')
 
 })

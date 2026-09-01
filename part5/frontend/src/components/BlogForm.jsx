@@ -32,16 +32,19 @@ const BlogForm = ({ createBlog }) => {
       <input
         value={titleField}
         onChange={handleTitleChange}
+        id='titleInput'
       /><br/>
       author:
       <input
         value={authorField}
         onChange={handleAuthorChange}
+        id='authorInput'
       /><br/>
       url:
       <input
         value={urlField}
         onChange={handleUrlChange}
+        id='urlInput'
       /><br/>
       <button >create</button>
     </form>
