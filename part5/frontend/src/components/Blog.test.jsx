@@ -18,13 +18,13 @@ test('renders content', () => {
       username:'Joe T'
     }
   }
-  render(<Blog blog={blog} user={user} />)
+  render( <Blog blog={blog} user={user} />)
 
-  const titleAndAuthor = screen.getByText('Component testing Joseph Test', {exact: false})
+  const titleAndAuthor = screen.getByText('Component testing Joseph Test', { exact: false })
   expect(titleAndAuthor).toBeDefined()
-  const url = screen.getByText('Joseph.com', {exact: false})
+  const url = screen.getByText('Joseph.com', { exact: false })
   expect(url).not.toBeVisible()
-  const likes = screen.getByText('likes', {exact: false})
+  const likes = screen.getByText('likes', { exact: false })
   expect(likes).not.toBeVisible()
 
 })
@@ -50,8 +50,8 @@ test('content shown after clicking view button', async() => {
   const button = screen.getByText('view')
   await user.click(button)
 
-  const url = screen.getByText('Joseph.com', {exact: false})
-  const likes = screen.getByText('likes', {exact: false})
+  const url = screen.getByText('Joseph.com', { exact: false })
+  const likes = screen.getByText('likes', { exact: false })
 
   expect(url).toBeVisible()
   expect(likes).toBeVisible()
