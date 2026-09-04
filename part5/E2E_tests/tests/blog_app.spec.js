@@ -63,6 +63,22 @@ describe('Blog app', () => {
 
       await expect(page.getByText('test title author')).not.toBeVisible()
     })
+    test('only user who adds blog can see the blog delete button', async ({ page, request }) => {
+      await request.post('/api/users', {
+      data: {
+        name: 'Tim Swims',
+        username: 'tiswi',
+        password: 'hello'
+      }
+    })
+      
+      await createBlog(page, 'test title', 'author', 'blog.com')
+      await page.getByRole('button', { name: 'Logout'}).click()
+      await page.getByText('Log in').waitFor()
+      await loginWith(page, 'tiswi', 'hello')
+      await page.getByRole('button', { name: 'view' }).click()
+      await expect(page.getByRole('button', { name: 'remove'})).not.toBeVisible()
+    })
   })
 
 })
