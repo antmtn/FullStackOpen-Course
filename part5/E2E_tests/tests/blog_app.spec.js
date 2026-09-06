@@ -42,6 +42,7 @@ describe('Blog app', () => {
   describe('When logged in', () => {
     beforeEach(async ({ page }) => {
       await loginWith(page, 'pear.shah', 'Shah')
+      await page.getByText('logged in').waitFor()
     })
     test('a new blog can be created', async ({ page }) => {
       await createBlog(page, 'test title', 'author', 'blog.com')
@@ -85,10 +86,11 @@ describe('Blog app', () => {
       await createBlog(page, 'test title 1', 'author', 'blog.com')
       await createBlog(page, 'test title 2', 'author', 'blog.com')
 
-      const blogs = page.getByTestId('blog')
+      const blogs = await page.getByTestId('blog')
+      console.log(blogs)
       const blog1 = blogs[0]
       const blog2 = blogs[1]
-      
+
     })
   })
 
