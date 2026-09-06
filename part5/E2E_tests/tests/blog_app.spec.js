@@ -63,6 +63,7 @@ describe('Blog app', () => {
 
       await expect(page.getByText('test title author')).not.toBeVisible()
     })
+
     test('only user who adds blog can see the blog delete button', async ({ page, request }) => {
       await request.post('/api/users', {
       data: {
@@ -78,6 +79,16 @@ describe('Blog app', () => {
       await loginWith(page, 'tiswi', 'hello')
       await page.getByRole('button', { name: 'view' }).click()
       await expect(page.getByRole('button', { name: 'remove'})).not.toBeVisible()
+    })
+
+    test('blogs are sorted in order of likes', async ({ page }) => {
+      await createBlog(page, 'test title 1', 'author', 'blog.com')
+      await createBlog(page, 'test title 2', 'author', 'blog.com')
+
+      const blogs = page.getByTestId('blog')
+      const blog1 = blogs[0]
+      const blog2 = blogs[1]
+      
     })
   })
 
