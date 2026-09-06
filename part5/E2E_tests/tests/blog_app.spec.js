@@ -86,10 +86,14 @@ describe('Blog app', () => {
       await createBlog(page, 'test title 1', 'author', 'blog.com')
       await createBlog(page, 'test title 2', 'author', 'blog.com')
 
-      const blogs = await page.getByTestId('blog')
-      console.log(blogs)
-      const blog1 = blogs[0]
-      const blog2 = blogs[1]
+      await page.getByRole('button', { name: 'view' }).nth(1).click();
+      for (let i = 0;i < 5; i++){
+        await page.getByRole('button', { name: 'like' }).click();
+      }
+      await page.getByRole('button', { name: 'view' }).click();
+      await expect(page.getByText('likes').first()).toContainText('likes 5')
+      await expect(page.getByText('likes').nth(1)).toContainText('likes 0')
+      
 
     })
   })
