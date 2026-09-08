@@ -47,7 +47,7 @@ const Blog = ({ blog, putBlog, user, deleteBlog }) => {
         <br/>
         {blog.user.name}
       </div>
-      {user.username === blog.user.username && detailVisible &&<button onClick = { () => deleteBlog(blog)}>remove</button> }
+      {user && user.username === blog.user.username && detailVisible &&<button onClick = { () => deleteBlog(blog)}>remove</button> }
     </div>
   )
 }

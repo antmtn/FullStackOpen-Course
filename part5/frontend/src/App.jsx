@@ -6,6 +6,12 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import BlogList from './components/BlogList'
+import LoginPage from './components/LoginPage'
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link,
+} from 'react-router-dom'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -93,59 +99,49 @@ const App = () => {
         'loggedBlogappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
+      return true
     } catch {
       setMessage('wrong username or password')
       setTimeout(() => {
         setMessage(null)
       },5000)
+      return false
     }
   }
 
-  if(user === null){
-    return(
-      <div>
-        <Notification message={message}/>
-        <h2>Log in to application</h2>
-        <LoginForm
-          handleLogin={handleLogin}
-          username={username}
-          password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
-        />
-      </div>
-    )
+  const padding = {
+    padding: '0px 5px',
   }
 
   return (
-    <div>
-      <Notification message={message}/>
-      <h2>blogs</h2>
-      <p>
-        {user.name} logged in
-        <button onClick={handleLogout}>Logout</button>
-      </p>
-
-      <h2>create new</h2>
-      <Togglable
-        openLabel="create new blog"
-        closeLabel="cancel"
-      >
-        <BlogForm
-          createBlog={createBlog}
-        />
-      </Togglable>
-
-      {blogs.map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          putBlog={putBlog}
-          user={user}
-          deleteBlog = {deleteBlog}
-        />
-      )}
-    </div>
+    <Router>
+      <div>
+        <Link style={padding} to="/blogs">blogs</Link>
+        {!user &&
+        <Link style={padding} to="/login">login</Link>}
+        {user && <button onClick={handleLogout}>Logout</button>}
+      </div>
+      <Routes>
+        <Route path="/blogs" element= {
+          <BlogList
+            blogs={ blogs }
+            putBlog={ putBlog }
+            user={ user }
+            deleteBlog={ deleteBlog }
+          />
+        }/>
+        <Route path="/login" element={
+          <LoginPage
+            message={message}
+            handleLogin={handleLogin}
+            username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+          />
+        }/>
+      </Routes>
+    </Router>
   )
 }
 
