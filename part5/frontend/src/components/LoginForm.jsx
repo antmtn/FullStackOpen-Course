@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 const LoginForm = (props) => {
   const navigate = useNavigate()
-  const handleLogin = async() => {
-    let result = await props.handleLogin()
+  const handleLogin = async(event) => {
+    let result = await props.handleLogin(event)
     if (result)
-      navigate('/blogs')
+      navigate('/')
   }
   return(
     <form onSubmit = {handleLogin}>

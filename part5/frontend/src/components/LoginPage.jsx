@@ -1,7 +1,7 @@
 import LoginForm from './LoginForm'
 import Notification from './Notification'
 
-const LoginPage = ({ message, handleLogin, username, password, setUsername, setPassword, user }) => {
+const LoginPage = ({ message, handleLogin, username, password, setUsername, setPassword }) => {
   return (
     <div>
       <Notification message={message}/>

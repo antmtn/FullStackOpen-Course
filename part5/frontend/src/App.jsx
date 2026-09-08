@@ -8,6 +8,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogList from './components/BlogList'
 import LoginPage from './components/LoginPage'
+import LogoutButton from './components/LogoutButton'
 import {
   BrowserRouter as Router,
   Routes, Route, Link,
@@ -116,13 +117,13 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Link style={padding} to="/blogs">blogs</Link>
+        <Link style={padding} to="/">blogs</Link>
         {!user &&
         <Link style={padding} to="/login">login</Link>}
-        {user && <button onClick={handleLogout}>Logout</button>}
+        {user && <LogoutButton handleLogout={handleLogout}/>}
       </div>
       <Routes>
-        <Route path="/blogs" element= {
+        <Route path="/" element= {
           <BlogList
             blogs={ blogs }
             putBlog={ putBlog }
