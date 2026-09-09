@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-const Blog = ({ blog, putBlog, user, deleteBlog }) => {
-  const [detailVisible, setDetailVisible] = useState(false)
-  const [blogLikes, setBlogLikes] = useState(blog.likes)
-  const showWhenVisible = { display: detailVisible ? '' : 'none' }
+const Blog = ({ blogs, putBlog, user, deleteBlog }) => {
+  const id = useParams().id
+  const blog = blogs.find(b => b.id === id)
+
+  if(!blog)
+    return null
+
+  console.log(blogs, 'id', id)
 
   const handleLike = () => {
-    const nextLikes = blogLikes + 1
-    setBlogLikes(nextLikes)
+    if (!user){
+      return
+    }
+    const nextLikes = blog.likes + 1
 
     const blogObject = {
       id: blog.id,
@@ -24,19 +30,19 @@ const Blog = ({ blog, putBlog, user, deleteBlog }) => {
   return(
     <div data-testid="blog">
       <div>
-        {blog.title} {blog.author}
-      </div>
-      <div style={showWhenVisible}>
+        <h2>{blog.title} {blog.author}</h2>
         {blog.url}<br/>
-        likes {blogLikes}
+        likes {blog.likes}
+        {user &&
         <button
           onClick={handleLike}
           id = 'likeButton'
         >like</button>
+        }
         <br/>
         {blog.user.name}
       </div>
-      {user && user.username === blog.user.username && detailVisible &&<button onClick = { () => deleteBlog(blog)}>remove</button> }
+      {user && user.username === blog.user.username &&<button onClick = { () => deleteBlog(blog)}>remove</button> }
     </div>
   )
 }

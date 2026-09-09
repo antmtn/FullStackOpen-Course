@@ -141,6 +141,15 @@ const App = () => {
             setPassword={setPassword}
           />
         }/>
+        <Route path="/blogs/:id" element={
+          <Blog
+            blogs={blogs}
+            putBlog={putBlog}
+            user={user}
+            deleteBlog={deleteBlog}
+          />
+        }
+        />
       </Routes>
     </Router>
   )
