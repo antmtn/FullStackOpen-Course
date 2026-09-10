@@ -71,4 +71,20 @@ blogsRouter.put('/:id',  userExtractor, async (request, response) => {
   response.json(updatedBlog)
 })
 
+blogsRouter.put('/:id/likes',  userExtractor, async (request, response) => {
+  const { likes } = request.body
+
+  const blog = await Blog.findById(request.params.id)
+
+  if (!blog) {
+    return response.status(404).end()
+  }
+  
+  blog.likes = likes
+
+  const updatedBlog = await blog.save()
+
+  response.json(updatedBlog)
+})
+
 module.exports = blogsRouter

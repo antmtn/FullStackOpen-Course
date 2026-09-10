@@ -52,9 +52,9 @@ const App = () => {
     }
   }
 
-  const putBlog = async (blogObject) => {
+  const likeBlog = async (blogObject) => {
     try {
-      const returnedBlog = await blogService.put(blogObject)
+      const returnedBlog = await blogService.like(blogObject)
       const prevBlog = blogs.find((blog) => (blog.id === returnedBlog.id))
       const newBlog = { ...prevBlog, likes: returnedBlog.likes }
       setBlogs(blogs.map(b => b.id === returnedBlog.id ? newBlog : b).sort((a,b) => b.likes-a.likes))
@@ -126,9 +126,6 @@ const App = () => {
         <Route path="/" element= {
           <BlogList
             blogs={ blogs }
-            putBlog={ putBlog }
-            user={ user }
-            deleteBlog={ deleteBlog }
           />
         }/>
         <Route path="/login" element={
@@ -144,7 +141,7 @@ const App = () => {
         <Route path="/blogs/:id" element={
           <Blog
             blogs={blogs}
-            putBlog={putBlog}
+            likeBlog={likeBlog}
             user={user}
             deleteBlog={deleteBlog}
           />

@@ -1,13 +1,12 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const Blog = ({ blogs, putBlog, user, deleteBlog }) => {
+const Blog = ({ blogs, likeBlog, user, deleteBlog }) => {
+  const navigate = useNavigate()
   const id = useParams().id
   const blog = blogs.find(b => b.id === id)
 
   if(!blog)
     return null
-
-  console.log(blogs, 'id', id)
 
   const handleLike = () => {
     if (!user){
@@ -24,7 +23,12 @@ const Blog = ({ blogs, putBlog, user, deleteBlog }) => {
       url: blog.url
     }
 
-    putBlog(blogObject)
+    likeBlog(blogObject)
+  }
+
+  const handleDelete = () => {
+    deleteBlog(blog)
+    navigate('/')
   }
 
   return(
@@ -42,7 +46,7 @@ const Blog = ({ blogs, putBlog, user, deleteBlog }) => {
         <br/>
         {blog.user.name}
       </div>
-      {user && user.username === blog.user.username &&<button onClick = { () => deleteBlog(blog)}>remove</button> }
+      {user && user.username === blog.user.username &&<button onClick = { handleDelete }>remove</button> }
     </div>
   )
 }
