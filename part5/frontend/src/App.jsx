@@ -118,6 +118,7 @@ const App = () => {
     <Router>
       <div>
         <Link style={padding} to="/">blogs</Link>
+        <Link style={padding} to="/create">new blog</Link>
         {!user &&
         <Link style={padding} to="/login">login</Link>}
         {user && <LogoutButton handleLogout={handleLogout}/>}
@@ -145,6 +146,13 @@ const App = () => {
             user={user}
             deleteBlog={deleteBlog}
           />
+        }
+        />
+        <Route path ="/create" element={
+          <>
+            <h2>create new</h2>
+            <BlogForm createBlog={createBlog}/>
+          </>
         }
         />
       </Routes>

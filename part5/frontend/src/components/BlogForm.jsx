@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const BlogForm = ({ createBlog }) => {
   const [titleField, setTitleField] = useState('')
   const [authorField, setAuthorField] = useState('')
   const [urlField, setUrlField] = useState('')
+  const navigate = useNavigate()
   const handleTitleChange = event => {
     setTitleField(event.target.value)
   }
@@ -25,6 +27,7 @@ const BlogForm = ({ createBlog }) => {
     setTitleField('')
     setAuthorField('')
     setUrlField('')
+    navigate('/')
   }
   return (
     <form onSubmit = {addBlog}>
