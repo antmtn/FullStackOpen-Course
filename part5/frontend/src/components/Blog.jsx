@@ -1,10 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 
-const Blog = ({ blogs, likeBlog, user, deleteBlog }) => {
-  const navigate = useNavigate()
-  const id = useParams().id
-  const blog = blogs.find(b => b.id === id)
-
+const Blog = ({ blog, likeBlog, user, deleteBlog }) => {
   if(!blog)
     return null
 

@@ -11,7 +11,7 @@ import LoginPage from './components/LoginPage'
 import LogoutButton from './components/LogoutButton'
 import {
   BrowserRouter as Router,
-  Routes, Route, Link,
+  Routes, Route, Link, useMatch,
 } from 'react-router-dom'
 
 const App = () => {
@@ -114,8 +114,13 @@ const App = () => {
     padding: '0px 5px',
   }
 
+  const match = useMatch('/blogs/:id')
+  const blog = match
+    ? blogs.find(blog => blog.id === match.params.id)
+    :null
+
   return (
-    <Router>
+    <div>
       <div>
         <Link style={padding} to="/">blogs</Link>
         <Link style={padding} to="/create">new blog</Link>
@@ -141,7 +146,7 @@ const App = () => {
         }/>
         <Route path="/blogs/:id" element={
           <Blog
-            blogs={blogs}
+            blog={blog}
             likeBlog={likeBlog}
             user={user}
             deleteBlog={deleteBlog}
@@ -156,7 +161,7 @@ const App = () => {
         }
         />
       </Routes>
-    </Router>
+    </div>
   )
 }
 
