@@ -1,7 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
-import BlogForm from './BlogForm'
 
 test('like and delete not shown to unauthenticated users', () => {
   const user = null
