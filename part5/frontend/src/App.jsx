@@ -9,7 +9,19 @@ import LogoutButton from './components/LogoutButton'
 import {
   Routes, Route, Link, useMatch,
 } from 'react-router-dom'
-import { Container } from '@mui/material'
+import { Container, Alert, AppBar, Toolbar, Button, Typography } from '@mui/material'
+
+const Notification = ({ message }) => {
+  if (message === null){
+    return null
+  }
+
+  return (
+    <Alert style={{ marginTop: 10, marginBottom: 10 }}>
+      {message}
+    </Alert>
+  )
+}
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +29,8 @@ const App = () => {
   const [password, setPassword] = useState('')
   const[user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
+  const buttonStyle = { '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' } }
+
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -119,12 +133,19 @@ const App = () => {
   return (
     <Container>
       <div>
-        <Link style={padding} to="/">blogs</Link>
-        <Link style={padding} to="/create">new blog</Link>
-        {!user &&
-        <Link style={padding} to="/login">login</Link>}
-        {user && <LogoutButton handleLogout={handleLogout}/>}
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>Blog App</Typography>
+            <Button color="inherit" component={Link} to="/" sx={buttonStyle}>blogs</Button>
+            <Button color="inherit" component={Link} to="/create" sx={buttonStyle}>new blog</Button>
+            {!user &&
+            <Button color="inherit" component={Link} to="/login" sx={buttonStyle}>login</Button>}
+            {user &&
+            <LogoutButton handleLogout={handleLogout} sx={buttonStyle}/>}
+          </Toolbar>
+        </AppBar>
       </div>
+      <Notification message={message}/>
       <Routes>
         <Route path="/" element= {
           <BlogList
@@ -133,7 +154,6 @@ const App = () => {
         }/>
         <Route path="/login" element={
           <LoginPage
-            message={message}
             handleLogin={handleLogin}
             username={username}
             password={password}
