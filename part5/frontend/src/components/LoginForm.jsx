@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import { TextField, Button } from '@mui/material'
+
 const LoginForm = (props) => {
   const navigate = useNavigate()
   const handleLogin = async(event) => {
@@ -9,24 +11,25 @@ const LoginForm = (props) => {
   return(
     <form onSubmit = {handleLogin}>
       <div>
-        <label>
-          username
-          <input
-            type ="text"
-            value ={props.username}
-            onChange={({ target }) => props.setUsername(target.value)}
-          />
-        </label>
-      </div>
-      <label>
-        password
-        <input
-          type="password"
-          value={props.password}
-          onChange={({ target }) => props.setPassword(target.value)}
+        <TextField
+          label = 'username'
+          value = { props.username }
+          onChange={({ target }) => props.setUsername(target.value)}
+          variant = 'standard'
+          margin = 'dense'
         />
-      </label>
-      <button type="submit">login</button>
+      </div>
+      <TextField
+        label = 'password'
+        value = { props.password }
+        onChange={({ target }) => props.setPassword(target.value)}
+        variant = 'standard'
+        margin = 'dense'
+      />
+      <br/>
+      <Button type="submit" variant="contained" style={{ marginTop: 10 }}>
+        login
+      </Button>
     </form>
   )}
 export default LoginForm

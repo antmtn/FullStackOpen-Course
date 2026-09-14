@@ -2,17 +2,14 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 import BlogList from './components/BlogList'
 import LoginPage from './components/LoginPage'
 import LogoutButton from './components/LogoutButton'
 import {
-  BrowserRouter as Router,
   Routes, Route, Link, useMatch,
 } from 'react-router-dom'
+import { Container } from '@mui/material'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -120,7 +117,7 @@ const App = () => {
     :null
 
   return (
-    <div>
+    <Container>
       <div>
         <Link style={padding} to="/">blogs</Link>
         <Link style={padding} to="/create">new blog</Link>
@@ -161,7 +158,7 @@ const App = () => {
         }
         />
       </Routes>
-    </div>
+    </Container>
   )
 }
 
