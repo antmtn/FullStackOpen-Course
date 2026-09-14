@@ -1,3 +1,5 @@
+import { Box, Button, Card, Link, Typography } from '@mui/material'
+import * as React  from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Blog = ({ blog, likeBlog, user, deleteBlog }) => {
@@ -28,22 +30,46 @@ const Blog = ({ blog, likeBlog, user, deleteBlog }) => {
     navigate('/')
   }
 
+  const card = (
+    <React.Fragment>
+      <Typography variant="h5" component="div" sx={{ fontWeight:'bold' }}>
+        {blog.title}
+      </Typography>
+      <Typography variant="body1" component="span">
+        by <strong>{blog.author}</strong>
+      </Typography>
+      <Link component="div" variant="body1">{blog.url}</Link>
+      <Typography variant="body1">
+        Likes: {blog.likes}
+        {user &&
+        <Button
+          onClick={handleLike}
+          id='likeButton'
+          sx={{ border:1, py:0, mx: 1, minWidth:0 }}
+        >
+          like
+        </Button>
+        }
+        {user && user.username === blog.user.username &&
+        <>
+          <br/>
+          <Button
+            onClick = { handleDelete }
+            sx={{ color:'red', border:1, py:0, my:0.5, mx:0 }}
+          >
+            remove
+          </Button>
+        </>
+        }
+      </Typography>
+    </React.Fragment>
+  )
+
   return(
     <div data-testid="blog">
-      <div>
-        <h2>{blog.title} {blog.author}</h2>
-        {blog.url}<br/>
-        likes {blog.likes}
-        {user &&
-        <button
-          onClick={handleLike}
-          id = 'likeButton'
-        >like</button>
-        }
-        <br/>
-        {blog.user.name}
-      </div>
-      {user && user.username === blog.user.username &&<button onClick = { handleDelete }>remove</button> }
+      <Box sx={{ minWidth: 275, maxWidth:'40%',my:1 }}>
+        <Card variant="outlined" sx={{ px:2, py:2, borderColor:'#6e8fba', borderWidth:2 }}>{card}</Card>
+      </Box>
     </div>
   )
 }
